@@ -1,0 +1,134 @@
+.denotesPerson_attiva
+{
+    background: purple;
+    color: white;
+    cursor: pointer;
+}
+
+.relatesTo_attiva
+{
+    background: red;
+    color: white;
+    cursor: pointer;
+}
+
+.cites_attiva
+{
+    background: steelblue;
+    color: white;
+    cursor: pointer;
+}
+
+.hasComment_attiva
+{
+    background: darkgoldenrod;
+    color: white;
+    cursor: pointer;
+}
+
+.denotesPlace_attiva
+{
+    background: pink;
+    color: white;
+    cursor: pointer;
+}
+
+.hasFormattingScore_attiva
+{
+    background: magenta;
+    color: white;
+    cursor: pointer;
+}
+
+.hasClarityScore_attiva
+{
+    background: green;
+    color: white;
+    cursor: pointer;
+}
+
+.hasSubject_attiva
+{
+    background: orange;
+    color: white;
+    cursor: pointer;
+}
+
+.denotesDisease_attiva
+{
+    background: brown;
+    color: white;
+    cursor: pointer;
+}
+
+.hasOriginalityScore_attiva
+{
+    background: coral;
+    color: white;
+    cursor: pointer;
+}
+
+.hasFiltro {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    color: inherit !important;
+}
+
+#file .hasFiltro{
+    cursor: text;
+}
+
+span[class*="annot_multiple"] > span[class*="annot_multiple"],
+span[class*="annot_multiple"] > span[class*="annotation"] {
+    background: none repeat scroll 0 0 grey !important;
+    color: black !important;
+    cursor: pointer !important;
+}
+
+span[class*="attiva"] > span[class*="hasFiltro"] {
+    cursor: pointer !important;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    color: inherit !important;
+}
+
+span[class*="hasFiltro"] > span[class*="hasFiltro"] {
+    cursor: text !important;
+}
+
+span[class*="attiva"] > span[class*="annot_multiple"] {
+    background: none repeat scroll 0 0 grey !important;
+    color: black !important;
+    cursor: pointer !important;
+}
+
+.default
+{
+    background: white;
+}
+
+.noAnnotation
+{
+    color: black;
+    background: white;
+}
+
+.attiva
+{
+    background: grey;
+    color: white;
+}
+
+#gestioneAnnotazioni
+{
+    float: right;
+}
+.rbhidden
+{
+    display: none;
+}
+
+.document-annotation-span:hover
+{
+    cursor: pointer;
+    font-weight: bold;
+    color: #2a6496;
+}

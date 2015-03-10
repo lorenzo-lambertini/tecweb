@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>AnnOtaria</title>
+
+
+
+		<!-- CSS -->
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/annotazioni.css" rel="stylesheet">
+		<link href="css/jquery-ui.css" rel="stylesheet">
+		<link href="jats-preview.css" rel="stylesheet">
+
+		<!-- Custom CSS -->
+		<!--link href="css/blog-post.css" rel="stylesheet"-->
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/rangy-core.js"></script>
+		<script src="js/rangy-selectionsaverestore.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/script.js"></script>
+		<script src="js/queryng.js"></script>
+
+	</head>
+
+	<body>
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">AnnOtaria</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+					<a href="#" data-toggle="modal" data-target="#how-to">How To</a>
+					</li>
+					<li>
+					<a href="#" data-toggle="modal" data-target="#about">About</a>
+					</li>
+					<li>
+					<a href="#" data-toggle="modal" id="modAnnotatore">Annotatore</a>
+					</li>
+				</ul>
+				<ul id="gestioneAnnotazioni" class="nav navbar-nav" style="display:none;" >
+					<li>
+					<a href="#" data-toggle="modal" id="noAnnotatore">Esci</a>
+					</li>
+					<li>
+					<a href="#" data-toggle="modal" id="btn_annotManage">Gestisci Annotazioni</a>
+					</li>
+					<li>
+					<a href="#" data-toggle="modal" id="btn_annotDocumento">Annota Documento</a>
+					</li>
+					<li>
+					<a href="#" data-toggle="modal" id="btn_annotFrammento">Annota Frammento</a>
+					</li>
+				</ul>
+
+			</div>
+
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+		</nav>
+
+		<!-- Page Content -->
+		<div class="container" id="page-container">
+
+			<div class="row">
+				<!-- Blog Sidebar Widgets Column -->
+				<div class="col-md-4">
+					<div class="well">
+						<h3>Elenco Documenti</h3>
+						<div class="row">
+							<div class="col-lg-6">
+								<ul id="listaDocumenti" class="list-unstyled">
+								</ul>
+							</div>
+						</div>
+						<!-- /.row -->
+					</div>
+
+					<div class="well">
+						<h3>Elenco Filtri</h3>
+						<div class="row">
+							<div class="filtri" id="filtri-frammento">
+								<h4>Frammento</h4>
+								<label id="lbDenotesPerson" class="btn btn-default denotesPerson_attiva" onclick=
+                                "changeFragmentClass('lbDenotesPerson','denotesPerson')" fragment-type="denotesPerson">Persona</label>
+								<label id="lbDenotesPlace" class="btn btn-default denotesPlace_attiva" onclick=
+                                "changeFragmentClass('lbDenotesPlace','denotesPlace')" fragment-type="denotesPlace">Luogo</label>
+								<label id="lbDenotesDisease" class="btn btn-default denotesDisease_attiva" onclick=
+                                "changeFragmentClass('lbDenotesDisease','denotesDisease')" fragment-type="denotesDisease">Malattia</label>
+								<label id="lbHasSubject" class="btn btn-default hasSubject_attiva" onclick=
+                                "changeFragmentClass('lbHasSubject','hasSubject')" fragment-type="hasSubject">Argomento</label>
+								<label id="lbRelatesTo" class="btn btn-default relatesTo_attiva" onclick=
+                                "changeFragmentClass('lbRelatesTo','relatesTo')" fragment-type="relatesTo">DBPedia</label>
+								<label id="lbHasClarityScore" class="btn btn-default hasClarityScore_attiva" onclick=
+                                "changeFragmentClass('lbHasClarityScore','hasClarityScore')" fragment-type="hasClarityScore">Chiarezza</label>
+								<label id="lbHasOriginalityScore" class="btn btn-default hasOriginalityScore_attiva" 
+                                onclick="changeFragmentClass('lbHasOriginalityScore','hasOriginalityScore')" fragment-type=
+                                "hasOriginalityScore">Giudizio</label>
+								<label id="lbHasFormattingScore" class="btn btn-default hasFormattingScore_attiva"
+                                onclick="changeFragmentClass('lbHasFormattingScore','hasFormattingScore')" fragment-type="hasFormattingScore">
+                                Presentazione</label>
+								<label id="lbCites" class="btn btn-default cites_attiva" onclick="changeFragmentClass('lbCites','cites')" 
+                                fragment-type="cites">Citazione</label>
+								<label id="lbHasComment" class="btn btn-default hasComment_attiva" onclick=
+                                "changeFragmentClass('lbHasComment','hasComment')" fragment-type="hasComment">Commento</label>
+							</div>
+							<div class="filtri" id="filtri-documento">
+								<h4>Documento</h4>
+								<label id="lbhasAuthor" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasAuthor','lbhasAuthor')" annotation-type="hasAuthor">Autore</label>
+								<label id="lbhasPublicationYear" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasPublicationYear','lbhasPublicationYear')" annotation-type="hasPublicationYear">
+                                Pubblicazione</label>
+								<label id="lbhasPublisher" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasPublisher','lbhasPublisher')" annotation-type="hasPublisher">Editore</label>
+								<label id="lbhasTitle" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasTitle','lbhasTitle')" annotation-type="hasTitle">Titolo</label>
+								<label id="lbhasAbstract" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasAbstract','lbhasAbstract')" annotation-type="hasAbstract">Riassunto</label>
+								<label id="lbhasComment" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasComment','lbhasComment')" annotation-type="hasComment">Commento</label>
+								<label id="lbhasShortTitle" class="btn btn-default attiva" onclick=
+                                "filteringDocumentAnnotation('hasShortTitle','lbhasShortTitle')" annotation-type="hasShortTitle">Titolo breve
+                                </label>
+							</div>
+							<div class="filtri">
+								<h4>Autore
+									<i id="author-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+								</h4>
+								<select id="select-autore-annotazione" class="form-control">
+									<option value="default">Nessun filtro autore</option>
+								</select>
+							</div>
+							<div class="filtri">
+								<h4>Data
+									<i id="help-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+								</h4>
+								<div class="input-group">
+									<input type="text" id="date-setter" class="form-control" placeholder="aaaa-mm-gg">
+									<span class="input-group-addon">
+										<input id="check-date-filter" type="checkbox" onClick="filterByDate()">
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="well">
+						<h3>Info documento</h3>
+						<div class="row">
+							<div id="document-annotation-list" class="col-lg-6">
+								<p>Autore:</p>
+								<ul id="hasAuthor-list"></ul>
+								<p>Anno di pubblicazione:</p>
+								<ul id="hasPublicationYear-list"></ul>
+								<p>Editore:</p>
+								<ul id="hasPublisher-list"></ul>
+								<p>Titolo:</p>
+								<ul id="hasTitle-list"></ul>
+								<p>Riassunto:</p>
+								<ul id="hasAbstract-list"></ul>
+								<p>Commento:</p>
+								<ul id="hasComment-list"></ul>
+								<p>Titolo breve:</p>
+								<ul id="hasShortTitle-list"></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- testo del documento-->
+				<div id="file" class="col-lg-8">
+					<div id="presentazione">
+						<h1 style="text-align: center">Benvenuto in AnnOtaria!</h1>
+						<h2>Cos'&egrave; AnnOtaria?</h2>
+						<p>
+						AnnOtaria &egrave; un'applicazione per l'annotazione semantica su pubblicazioni scientifiche.
+						</p>
+						<h2>Come iniziare</h2>
+						<p>
+						Dal pannello "Elenco Documenti" selezionare l'articolo scientifico a cui si &egrave; interessati.<br/>
+						Dopo aver scelto un documento, il suo contenuto e le annotazioni ad esso collegate verranno mostrati nella sezione 
+                        centrale.
+						</p>
+						<h2>Visualizzare le annotazioni</h2>
+						<p>
+						Le annotazioni possono essere di due tipi:
+						<ul>
+							<li>Frammento: annotazioni relative ad una parte di testo del documento selezionato</li>
+							<li>Documento: annotazioni relative all'intero documento selezionato</li>
+						</ul>
+						</p>
+						<p>
+						Le annotazioni di tipo Frammento vengono evidenziate (ognuna con il relativo stile) sui singoli frammenti di
+						testo, il quale potrebbe contenere pi&ugrave; di una annotazione (annotazioni multiple).<br/>
+						Cliccando su un frammento verr&agrave; aperta una finestra modale, mostrante le informazioni relative a tutte le 
+                        annotazioni collegate ad esso.
+						</p>
+						<p>
+						Le annotazioni di tipo Documento vengono mostrate nel pannello "Info Documento".<br/>
+						Cliccando su una annotazione verr&agrave; aperta una finestra modale, mostrante le informazioni relative ad essa.
+						</p>
+						<h2>Filtrare le annotazioni</h2>
+						<p>
+						Dal pannello "Elenco Filtri" &egrave; possibile selezionare le annotazioni in modi differenti:
+						<ul>
+							<li>Cliccando un bottone relativo ai filtri frammento verranno nascosti tutti i frammenti di testo
+							relativi al tipo cliccato</li>
+							<li>Cliccando un bottone relativo ai filtri documento verranno nascoste le informazioni documento
+							relative al tipo cliccato</li>
+							<li>Selezionando un autore verranno mostrate solo le annotazioni create dall'autore selezionato</li>
+							<li>Inserendo una data e spuntando il relativo checkbox verranno nascoste tutte le annotazioni con data
+							di creazione precedente a quella inserita</li>
+						</ul>
+						</p>
+						<h2>Creare le annotazioni</h2>
+						<p>
+						Dopo aver selezionato un documento &egrave; possibile passare in modalit&agrave; Annotatore, cliccando sul relativo 
+                        pulsante ed in seguito autenticandosi con username ed e-mail.
+						</p>
+						<p>
+						Creare un'annotazione Frammento:
+						<ul>
+							<li>Selezionare un frammento di testo all'interno del documento</li>
+							<li>Cliccare sulla voce "Annota Frammento"</li>
+							<li>Selezionare tipo di annotazione da creare e cliccare su "Avanti"</li>
+							<li>Riempire i campi richiesti con le apposite informazioni e cliccare su "Conferma"</li>
+						</ul>
+						</p>
+						<p>
+						Creare un'annotazione Documento:
+						<ul>
+							<li>Cliccare su "Annota Documento"</li>
+							<li>Selezionare tipo di annotazione da creare e cliccare su "Avanti"</li>
+							<li>Riempire i campi richiesti con le apposite informazioni e cliccare su "Conferma"</li>
+						</ul>
+						</p>
+						<p>
+						N.B. Selezionando un nuovo documento vengono disattivati tutti i filtri e mostrate tutte le annotazioni presenti.
+						</p>
+						<h2>Gestire le annotazioni</h2>
+						<p>
+						Per gestire le annotazioni create e non ancora salvate &egrave; sufficiente cliccare su "Gestisci Annotazioni".<br/>
+						Verr&agrave; aperta una finestra modale riportante la lista delle annotazioni create (con relative informazioni 
+                        essenziali).<br/>
+						Per ogni annotazione creata è possibile, cliccando sul relativo pulsante, modificare le informazioni inserite, senza 
+						modificare il tipo, e cancellarla dalla memoria temporanea.<br/>
+						Le annotazioni inserite possono anche essere cancellate o salvate in blocco, cliccando gli appositi pulsanti nella
+						parte inferiore della finestra.
+						</p>
+						<h2>Uscire dalla modalit&agrave; Annotatore</h2>
+						<p>
+						Per uscire dalla modalit&agrave; Annotatore &egrave; sufficiente cliccare sul pulsante "Esci".<br/>
+						N.B. L'uscita comporta la cancellazione di tutte le annotazioni create e non salvate.
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<hr>
+
+			<!-- Footer -->
+			<footer>
+			<div class="row">
+				<div class="col-lg-12">
+				</div>
+			</div>
+			<!-- /.row -->
+			</footer>
+
+		</div>
+		<!-- /.container -->
+
+		<div id="how-to" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">How To</h4>
+					</div>
+					<div class="modal-body">
+						<div id="presentazione">
+							<h4>Come iniziare</h4>
+							<p>
+							Dal pannello "Elenco Documenti" selezionare l'articolo scientifico a cui si &egrave; interessati.<br/>
+							Dopo aver scelto un documento, il suo contenuto e le annotazioni ad esso collegate verranno mostrati nella sezione 
+                            centrale.
+							</p>
+							<h4>Visualizzare le annotazioni</h4>
+							<p>
+							Le annotazioni possono essere di due tipi:
+							<ul>
+								<li>Frammento: annotazioni relative ad una parte di testo del documento selezionato</li>
+								<li>Documento: annotazioni relative all'intero documento selezionato</li>
+							</ul>
+							</p>
+							<p>
+							Le annotazioni di tipo Frammento vengono evidenziate (ognuna con il relativo stile) sui singoli frammenti di
+							testo, il quale potrebbe contenere più di una annotazione (annotazioni multiple).<br/>
+							Cliccando su un frammento verr&agrave; aperta una finestra modale, mostrante le informazioni relative a tutte le 
+                            annotazioni collegate ad esso.
+							</p>
+							<p>
+							Le annotazioni di tipo Documento vengono mostrate nel pannello "Info Documento".<br/>
+							Cliccando su una annotazione verr&agrave; aperta una finestra modale, mostrante le informazioni relative ad essa.
+							</p>
+							<h4>Filtrare le annotazioni</h4>
+							<p>
+							Dal pannello "Elenco Filtri" &egrave; possibile selezionare le annotazioni in modi differenti:
+							<ul>
+								<li>Cliccando un bottone relativo ai filtri frammento verranno nascosti tutti i frammenti di testo
+								relativi al tipo cliccato</li>
+								<li>Cliccando un bottone relativo ai filtri documento verranno nascoste le informazioni documento
+								relative al tipo cliccato</li>
+								<li>Selezionando un autore verranno mostrate solo le annotazioni create dall'autore selezionato</li>
+								<li>Inserendo una data e spuntando il relativo checkbox verranno nascoste tutte le annotazioni con data
+								di creazione precedente a quella inserita</li>
+							</ul>
+							</p>
+							<h4>Creare le annotazioni</h4>
+							<p>
+							Dopo aver selezionato un documento &egrave; possibile passare in modalit&agrave; Annotatore, cliccando sul relativo 
+                            pulsante ed in seguito autenticandosi con username ed e-mail.
+							</p>
+							<p>
+							Creare un'annotazione Frammento:
+							<ul>
+								<li>Selezionare un frammento di testo all'interno del documento</li>
+								<li>Cliccare sulla voce "Annota Frammento"</li>
+								<li>Selezionare tipo di annotazione da creare e cliccare su "Avanti"</li>
+								<li>Riempire i campi richiesti con le apposite informazioni e cliccare su "Conferma"</li>
+							</ul>
+							</p>
+							<p>
+							Creare un'annotazione Documento:
+							<ul>
+								<li>Cliccare su "Annota Documento"</li>
+								<li>Selezionare tipo di annotazione da creare e cliccare su "Avanti"</li>
+								<li>Riempire i campi richiesti con le apposite informazioni e cliccare su "Conferma"</li>
+							</ul>
+							</p>
+							<p>
+							N.B. Selezionando un nuovo documento vengono disattivati tutti i filtri e mostrate tutte le annotazioni presenti.
+							</p>
+							<h4>Gestire le annotazioni</h4>
+							<p>
+							Per gestire le annotazioni create e non ancora salvate &egrave; sufficiente cliccare su "Gestisci Annotazioni".<br/>
+							Verr&agrave; aperta una finestra modale riportante la lista delle annotazioni create (con relative informazioni 
+                            essenziali).<br/>
+							Per ogni annotazione creata &egrave; possibile, cliccando sul relativo pulsante, modificare le informazioni inserite, 
+                            senza modificare il tipo, e cancellarla dalla memoria temporanea.<br/>
+							Le annotazioni inserite possono anche essere cancellate o salvate in blocco, cliccando gli appositi pulsanti nella
+							parte inferiore della finestra.
+							</p>
+							<h4>Uscire dalla modalit&agrave; Annotatore</h4>
+							<p>
+							Per uscire dalla modalit&agrave; Annotatore &egrave; sufficiente cliccare sul pulsante "Esci".<br/>
+							N.B. L'uscita comporta la cancellazione di tutte le annotazioni create e non salvate.
+							</p>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+
+		<div id="about" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">About</h4>
+					</div>
+					<div class="modal-body">
+						<p>Progetto AnnOtaria del corso di Tecnologie Web A.A. 2013/2014 realizzato da:</p>
+						<ul>
+							<li>Berselli Andrea Junior</li>
+							<li>Lambertini Lorenzo</li>
+							<li>Mengoli Andrea</li>
+							<li>Zanetti Davide</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="annotatore" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Login</h4>
+					</div>
+					<div class="modal-body">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span><input type="text" 
+                            placeholder="Username" class="form-control input_text_size" id="login_name">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">@</span><input type="text" placeholder="E-mail" class="form-control input_text_size" id
+                            ="login_email">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="btnSubmit" class="btn btn-primary" type="button">Login</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="modal_ann_fram" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Annota frammento</h4>
+					</div>
+					<div class="modal-body" id="body_modal_ann_fram">
+						<h4 class="modal-body-title">Seleziona il tipo di annotazione frammento</h4>
+						<div class="tipi-annot">
+							<h4>Entità esterne</h4><hr>
+							<label class="btn btn-default denotesPerson_attiva" fragment-type="denotesPerson">Persona
+							</label>
+							<label class="btn btn-default denotesPlace_attiva" fragment-type="denotesPlace">Luogo
+							</label>
+							<label class="btn btn-default denotesDisease_attiva" fragment-type="denotesDisease">Malattia
+							</label>
+						</div>
+						<div class="tipi-annot">
+							<h4>Argomento</h4><hr>
+							<label class="btn btn-default hasSubject_attiva" fragment-type="hasSubject">Argomento principale
+							</label>
+							<label class="btn btn-default relatesTo_attiva" fragment-type="relatesTo">DBPedia
+							</label>
+						</div>
+						<div class="tipi-annot">
+							<h4>Qualità</h4><hr>
+							<label class="btn btn-default hasClarityScore_attiva" fragment-type="hasClarityScore">Chiarezza
+							</label>
+							<label class="btn btn-default hasOriginalityScore_attiva" fragment-type="hasOriginalityScore">Giudizio
+							</label>
+							<label class="btn btn-default hasFormattingScore_attiva" fragment-type="hasFormattingScore">Presentazione
+							</label>
+						</div>
+						<div class="tipi-annot">
+							<h4>Citazioni</h4><hr>
+							<label class="btn btn-default cites_attiva" fragment-type="cites">Citazione
+							</label>
+							<label class="btn btn-default hasComment_attiva" fragment-type="hasComment">Commento
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="bt_avanti_ann_fram" class="btn btn-primary" type="button" disabled="disabled">Avanti</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="step2" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Annota frammento</h4>
+					</div>
+					<div class="modal-body">
+						<div id="valorePrec" style="display: none;"></div>
+							<!--instance widget-->
+                            <div id="instance-widget" style="display: none;">
+                                <!--select_instance-->
+                                <div>
+                                    <h4>Seleziona dalla lista</h4>
+                                    <select id="select_instance" class="form-control"></select>
+                                </div>
+                                <!--textArea-->
+                                <div id="textArea">
+                                    <div id="instance-person" style="display: none;">
+                                        <h4>oppure aggiungi una persona
+                                            <i id="instance-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                        </h4>
+                                        <input id="textPerson" type="text" class="form-control"/>
+                                    </div>
+                                    <div id="instance-disease" style="display: none;">
+                                        <h4>oppure aggiungi una malattia
+                                            <i id="instance-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                        </h4>
+                                        <input id="text-disease" type="text" class="form-control"/>
+                                    </div>
+                                    <div id="instance-place" style="display: none;">
+                                        <h4>oppure cerca un luogo
+                                            <i id="place-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                        </h4>
+                                        <div class="input-group">
+                                            <input type="text" id="ricercaDBPediaPlace" class="form-control" placeholder="Inserisci valore">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" id="dbpediaPlace-searchBtn">Cerca</button>
+                                            </span>
+                                        </div>
+                                        <div id="resourcePlaceDiv" style="display: none;"></div>
+                                    </div>
+                                    <div id="instance-argument" style="display: none;">
+                                        <h4>oppure aggiungi un argomento
+                                            <i id="instance-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                        </h4>
+                                        <input id="text-argument" type="text" class="form-control"/>
+                                    </div>
+                                    <div id="instance-author" style="display: none;">
+                                        <h4>oppure aggiungi un autore
+                                            <i id="instance-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                        </h4>
+                                        <input type="text" id="text-instance-author" class="form-control"/>
+                                    </div>
+                                    <div id="instance-publisher" style="display: none;">
+                                        <h4>oppure aggiungi un editore
+                                            <i id="instance-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                        </h4>
+                                        <input type="text" id="text-instance-publisher" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--choice widget-->
+                            <div id="choice-widget" style="display: none;">
+                                <h4 id="choice-title"></h4>
+                                <select id="choice-list" class="form-control">
+                                    <option value="<http://vitali.web.cs.unibo.it/AnnOtaria/score/very-poor>">Very poor</option>
+                                    <option value="<http://vitali.web.cs.unibo.it/AnnOtaria/score/poor>">Poor</option>
+                                    <option value="<http://vitali.web.cs.unibo.it/AnnOtaria/score/fair>">Fair</option>
+                                    <option value="<http://vitali.web.cs.unibo.it/AnnOtaria/score/good>">Good</option>
+                                    <option value="<http://vitali.web.cs.unibo.it/AnnOtaria/score/excellent>">Excellent</option>
+                                </select>
+                            </div>
+                            <!--short text widget-->
+                            <div id="shortText-widget" style="display: none;">
+                                <h4>Inserisci testo</h4>
+                                <input id="shortText-widget-text" type="text" class="form-control" maxlength="80"/>
+                            </div>
+                            <!--long text widget-->
+                            <div id="longText-widget" style="display: none;">
+                                <h4>Inserisci testo</h4>
+                                <textarea id="longText-widget-text" class="form-control" rows="5"></textarea>
+                            </div>
+                            <!--date widget-->
+                            <div id="date-widget" style="display: none;" >
+                                <h4>Inserisci anno</h4>
+                                <input id="date-widget-text" type="text" class="form-control" maxlength="4" size="4" min="1850"/>
+                            </div>
+                            <!--citation widget-->
+                            <div id="citation-widget" style="display: none;">
+                                <h4>Seleziona il tipo di documento che vuoi citare</h4>
+                                <select id="documentList" class="form-control" ></select>
+                                <div id="citationArea">
+                                    <h4>oppure inserisci le informazioni
+                                        <i id="citation-tooltip" class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
+                                    </h4>
+                                    <input id="citation-title-text" type="text" class="form-control" maxlength="50" placeholder="Titolo"/>
+                                    <input id="citation-address-text" type="text" class="form-control" placeholder="Indirizzo"/>
+                                </div>
+                            </div>
+							<div id="dbpedia-widget" style="display: none;">
+								<h4>Ricerca un valore su DBPedia</h4>
+								<div class="input-group">
+									<input type="text" id="ricercaDBPedia" class="form-control" placeholder="inserisci valore">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" id="dbpedia-searchBtn">Cerca</button>
+									</span>
+								</div>
+								<div style="display:none" id="resourceDiv"></div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button id="btnConferma" class="btn btn-primary" type="button">Conferma</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="contenitore_ann" aria-hidden="true" class="modal fade"></div>
+
+		<div id="modal_ann_doc" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Annota documento</h4>
+					</div>
+					<div id="body_modal_ann_doc" class="modal-body">
+						<h4 class="modal-body-title">Seleziona il tipo di annotazione documento</h4>
+						<label id="rbhasAuthor" class="btn btn-default attiva" annotation-type="hasAuthor">
+							Autore
+						</label>
+						<label id="rbhasPublicationYear" class="btn btn-default attiva" annotation-type="hasPublicationYear">
+							Pubblicazione
+						</label>
+						<label id="rbhasPublisher" class="btn btn-default attiva" annotation-type="hasPublisher">
+							Editore
+						</label>
+						<label id="rbhasTitle" class="btn btn-default attiva"  annotation-type="hasTitle">
+							Titolo
+						</label>
+						<label id="rbhasAbstract" class="btn btn-default attiva" annotation-type="hasAbstract">
+							Riassunto
+						</label>
+						<label id="rbhasComment" class="btn btn-default attiva" annotation-type="hasComment">
+							Commento
+						</label>
+						<label id="rbhasShortTitle" class="btn btn-default attiva" annotation-type="hasShortTitle">
+							Titolo breve
+						</label>
+					</div>
+					<div class="modal-footer">
+						<button id="bt_avanti_ann_doc" class="btn btn-primary" type="button" disabled="disabled">Avanti</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="gestione-annotazioni" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Gestione annotazioni inserite</h4>
+					</div>
+					<div class="modal-body">
+						<div class="table-responsive">
+							<table id="ann-table" class="table table-hover">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Documento</th>
+										<th>Tipo</th>
+										<th>Valore</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="remove-tempAnn" class="btn btn-default" data-dismiss="modal" type="button" onclick="eliminaAnnotazioniTemp()">
+							Cancella tutte
+						</button>
+						<button id="confirm-tempAnn" class="btn btn-primary" data-dismiss="modal" type="button">
+							Conferma tutte
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>
